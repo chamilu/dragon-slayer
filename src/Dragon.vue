@@ -50,6 +50,9 @@ export default {
         "addToCommentary",
         `Dragon got power attacked by player for ${reducedHealth}%`
       );
+    },
+    resetHealth() {
+      this.health = 100;
     }
   },
   watch: {
@@ -58,7 +61,8 @@ export default {
       if (newHealth <= 0) {
         this.health = 0;
         console.log("dragon dead");
-        this.$emit("addToCommentary", `Dragon K.O. Player wins`);
+        this.$emit("ko", "Dragon K.O. Player wins");
+        this.$emit("addToCommentary", "Dragon K.O. Player wins");
       }
     }
   }

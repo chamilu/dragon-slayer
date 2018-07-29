@@ -54,8 +54,20 @@ export default {
     gotHealed() {
       if (this.health < 100) {
         console.log("Player got healed");
-        this.health += getRandomInt(1, 10);
+        const gainedHealth = getRandomInt(1, 10);
+        this.health += gainedHealth;
+        this.$emit(
+          "addToCommentary",
+          `Player gained health by ${gainedHealth}%`
+        );
       }
+    },
+    giveUp() {
+      this.health = 0;
+      this.$emit("addToCommentary", `Player gave up.`);
+    },
+    resetHealth() {
+      this.health = 100;
     }
   },
   watch: {
@@ -65,7 +77,8 @@ export default {
         this.health = 0;
       } else if (newHealth === 0) {
         console.log("player dead");
-        this.$emit("addToCommentary", `Player K.O. Dragon wins`);
+        this.$emit("ko", "Player K.O. Dragon wins");
+        this.$emit("addToCommentary", "Player K.O. Dragon wins");
       }
     }
   }

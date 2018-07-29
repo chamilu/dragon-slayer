@@ -1,16 +1,17 @@
 <template>
   <div>
+    <modal v-if="showModal" @playAgain="playAgain" :message="modalMessage"></modal>
     <div id="content-wrapper">
-      <player ref="player" v-on:addToCommentary="addToCommentary"></player>
-      <dragon ref="dragon" v-on:addToCommentary="addToCommentary" ></dragon>
+      <player ref="player" v-on:addToCommentary="addToCommentary" @ko="endOfGame"></player>
+      <dragon ref="dragon" v-on:addToCommentary="addToCommentary" @ko="endOfGame"></dragon>
     </div>
 
     <hr>
     <actions 
-      v-on:giveup="givingUp"
-      v-on:heal="healing"
-      v-on:powerAttack="powerAttacking"
-      v-on:attack="attacking">
+      @giveup="givingUp"
+      @heal="healing"
+      @powerAttack="powerAttacking"
+      @attack="attacking">
     </actions>
     <hr>
     <commentary ref="commentary"></commentary>
@@ -22,13 +23,21 @@ import Actions from "./Actions.vue";
 import Player from "./Player.vue";
 import Dragon from "./Dragon.vue";
 import Commentary from "./Commentary.vue";
+import Modal from "./Modal.vue";
 
 export default {
+  data() {
+    return {
+      showModal: false,
+      modalMessage: ""
+    };
+  },
   components: {
     actions: Actions,
     player: Player,
     dragon: Dragon,
-    commentary: Commentary
+    commentary: Commentary,
+    modal: Modal
   },
   methods: {
     attacking() {
@@ -43,10 +52,20 @@ export default {
       this.$refs.player.gotHealed();
       this.$refs.player.gotAttacked();
     },
-    givingUp() {},
+    givingUp() {
+      this.$refs.player.giveUp();
+    },
     addToCommentary(record) {
-      console.log("=============", record);
       this.$refs.commentary.add(record);
+    },
+    endOfGame(message) {
+      this.modalMessage = message;
+      this.showModal = true;
+    },
+    playAgain() {
+      this.showModal = false;
+      this.$refs.dragon.resetHealth();
+      this.$refs.player.resetHealth();
     }
   }
 };
@@ -62,7 +81,7 @@ export default {
 }
 
 .progress-bar {
-  width: 201px;
+  width: 34vw;
   border: 1px solid #555;
   margin: 0 auto;
 }
@@ -70,6 +89,9 @@ export default {
   height: 21px;
   width: 100%;
   transition: all 0.5s ease;
+}
+.progress-bar span {
+  line-height: 21px;
 }
 
 .progress-bar .health.best {
