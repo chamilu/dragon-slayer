@@ -1,0 +1,83 @@
+<template>
+  <div id="player">
+    <img src="./assets/warrior.gif">
+    <div class="progress-bar">
+      <div :class="cssClass" class="health" :style="{width: health + '%'}"></div>
+    </div>
+    <span>Player : {{ health }}% </span>
+  </div>
+</template>
+
+<script>
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+export default {
+  data() {
+    return {
+      health: 100
+    };
+  },
+  computed: {
+    cssClass() {
+      const health = this.health;
+      if (health >= 75 && health <= 100) {
+        return "best";
+      } else if (health >= 50 && health < 75) {
+        return "good";
+      } else if (health >= 25 && health < 50) {
+        return "average";
+      } else {
+        return "danger";
+      }
+    }
+  },
+  methods: {
+    gotAttacked() {
+      console.log("player got attacked");
+      const reducedHealth = getRandomInt(1, 10);
+      this.health -= reducedHealth;
+      this.$emit(
+        "addToCommentary",
+        `Dragon attacks player for ${reducedHealth}%`
+      );
+    },
+    pronedByPowerAttack() {
+      console.log("player got proned by power attack");
+      const reducedHealth = getRandomInt(10, 20);
+      this.health -= reducedHealth;
+      this.$emit(
+        "addToCommentary",
+        `Player proned by power attack for ${reducedHealth}%`
+      );
+    },
+    gotHealed() {
+      if (this.health < 100) {
+        console.log("Player got healed");
+        this.health += getRandomInt(1, 10);
+      }
+    }
+  },
+  watch: {
+    health: function(newHealth, oldHealth) {
+      console.log("player new health: ", newHealth);
+      if (newHealth < 0) {
+        this.health = 0;
+      } else if (newHealth === 0) {
+        console.log("player dead");
+        this.$emit("addToCommentary", `Player K.O. Dragon wins`);
+      }
+    }
+  }
+};
+</script>
+
+<style>
+#player {
+  display: table-cell;
+  text-align: center;
+}
+#player img {
+  height: 150px;
+}
+</style>

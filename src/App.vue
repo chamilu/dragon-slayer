@@ -1,60 +1,88 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div>
+    <div id="content-wrapper">
+      <player ref="player" v-on:addToCommentary="addToCommentary"></player>
+      <dragon ref="dragon" v-on:addToCommentary="addToCommentary" ></dragon>
+    </div>
+
+    <hr>
+    <actions 
+      v-on:giveup="givingUp"
+      v-on:heal="healing"
+      v-on:powerAttack="powerAttacking"
+      v-on:attack="attacking">
+    </actions>
+    <hr>
+    <commentary ref="commentary"></commentary>
   </div>
 </template>
 
 <script>
+import Actions from "./Actions.vue";
+import Player from "./Player.vue";
+import Dragon from "./Dragon.vue";
+import Commentary from "./Commentary.vue";
+
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  components: {
+    actions: Actions,
+    player: Player,
+    dragon: Dragon,
+    commentary: Commentary
+  },
+  methods: {
+    attacking() {
+      this.$refs.dragon.gotAttacked();
+      this.$refs.player.gotAttacked();
+    },
+    powerAttacking() {
+      this.$refs.dragon.gotPowerAttacked();
+      this.$refs.player.pronedByPowerAttack();
+    },
+    healing() {
+      this.$refs.player.gotHealed();
+      this.$refs.player.gotAttacked();
+    },
+    givingUp() {},
+    addToCommentary(record) {
+      console.log("=============", record);
+      this.$refs.commentary.add(record);
     }
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+#content-wrapper {
+  display: table;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #ccc;
 }
 
-h1, h2 {
-  font-weight: normal;
+.progress-bar {
+  width: 201px;
+  border: 1px solid #555;
+  margin: 0 auto;
+}
+.progress-bar .health {
+  height: 21px;
+  width: 100%;
+  transition: all 0.5s ease;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.progress-bar .health.best {
+  background-color: #6ab04c;
 }
-
-li {
-  display: inline-block;
-  margin: 0 10px;
+.progress-bar .health.good {
+  background-color: #f9ca24;
 }
-
-a {
-  color: #42b983;
+.progress-bar .health.average {
+  background-color: #f0932b;
+}
+.progress-bar .health.danger {
+  background-color: #eb4d4b;
 }
 </style>
+
