@@ -89,6 +89,5 @@ export default {
 }
 #player img {
   width: 120px;
-  margin-bottom: 15px;
 }
 </style>
