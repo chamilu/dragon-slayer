@@ -80,9 +80,6 @@ export default {
   text-align: center;
 }
 
-.modal-default-button {
-}
-
 /*
  * The following styles are auto-applied to elements with
  * transition="modal" when their visibility is toggled
