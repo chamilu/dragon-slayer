@@ -58,7 +58,7 @@ export default {
     health: function(newHealth, oldHealth) {
       if (newHealth <= 0) {
         this.health = 0;
-        this.$emit("ko", "Player wins !");
+        this.$emit("ko", "Hazzaa... Good job warrior. To the next dragon...");
         this.$emit("addToCommentary", "Player wins !");
       }
     }

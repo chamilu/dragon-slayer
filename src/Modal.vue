@@ -73,7 +73,7 @@ export default {
 .modal-body {
   margin: 20px 0;
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .modal-footer {

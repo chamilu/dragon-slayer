@@ -73,7 +73,7 @@ export default {
       if (newHealth < 0) {
         this.health = 0;
       } else if (newHealth === 0) {
-        this.$emit("ko", "Dragon wins");
+        this.$emit("ko", "Oh! Dragon wins, better luck next time.");
         this.$emit("addToCommentary", "Dragon wins !");
       }
     }
