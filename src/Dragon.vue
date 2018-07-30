@@ -2,9 +2,10 @@
   <div id="dragon">
     <img src="./assets/dragon.gif">
     <div class="progress-bar">
+      <div class="num">{{ health }}%</div>
       <div :class="cssClass" class="health" :style="{width: health + '%'}"></div>
     </div>
-    <span>Dragon : {{ health }}% </span>
+    <!-- <span>Dragon </span> -->
   </div>
 </template>
 
@@ -34,7 +35,6 @@ export default {
   },
   methods: {
     gotAttacked() {
-      console.log("dragon got attacked");
       const reducedHealth = getRandomInt(1, 10);
       this.health -= reducedHealth;
       this.$emit(
@@ -43,7 +43,6 @@ export default {
       );
     },
     gotPowerAttacked() {
-      console.log("dragon got power attacked");
       const reducedHealth = getRandomInt(10, 20);
       this.health -= reducedHealth;
       this.$emit(
@@ -57,12 +56,10 @@ export default {
   },
   watch: {
     health: function(newHealth, oldHealth) {
-      console.log("dragon new health: ", newHealth);
       if (newHealth <= 0) {
         this.health = 0;
-        console.log("dragon dead");
-        this.$emit("ko", "Dragon K.O. Player wins");
-        this.$emit("addToCommentary", "Dragon K.O. Player wins");
+        this.$emit("ko", "Player wins !");
+        this.$emit("addToCommentary", "Player wins !");
       }
     }
   }
@@ -73,8 +70,9 @@ export default {
 #dragon {
   display: table-cell;
   text-align: center;
+  vertical-align: middle;
 }
 #dragon img {
-  height: 150px;
+  width: 120px;
 }
 </style>

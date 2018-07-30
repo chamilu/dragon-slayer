@@ -1,19 +1,22 @@
 <template>
   <div>
+    <header>
+      Dragon Slayer
+    </header>
     <modal v-if="showModal" @playAgain="playAgain" :message="modalMessage"></modal>
     <div id="content-wrapper">
       <player ref="player" v-on:addToCommentary="addToCommentary" @ko="endOfGame"></player>
       <dragon ref="dragon" v-on:addToCommentary="addToCommentary" @ko="endOfGame"></dragon>
     </div>
 
-    <hr>
+   
     <actions 
       @giveup="givingUp"
       @heal="healing"
       @powerAttack="powerAttacking"
       @attack="attacking">
     </actions>
-    <hr>
+ 
     <commentary ref="commentary"></commentary>
   </div>
 </template>
@@ -72,26 +75,39 @@ export default {
 </script>
 
 <style>
+header {
+  font-family: "Lobster", cursive;
+  background-color: #2c3e50;
+  text-align: center;
+  color: #fff;
+  font-size: 40px;
+  line-height: 10vh;
+}
+
 #content-wrapper {
   display: table;
   width: 100%;
-  padding: 10px;
   box-sizing: border-box;
-  background-color: #ccc;
+  height: 32vh;
 }
 
 .progress-bar {
-  width: 34vw;
+  width: 29vw;
   border: 1px solid #555;
   margin: 0 auto;
+  padding: 2px;
+  position: relative;
 }
 .progress-bar .health {
-  height: 21px;
+  height: 27px;
   width: 100%;
   transition: all 0.5s ease;
 }
-.progress-bar span {
-  line-height: 21px;
+.progress-bar .num {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  line-height: 27px;
 }
 
 .progress-bar .health.best {

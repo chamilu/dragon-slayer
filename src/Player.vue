@@ -2,9 +2,10 @@
   <div id="player">
     <img src="./assets/warrior.gif">
     <div class="progress-bar">
+      <div class="num">{{ health }}%</div>
       <div :class="cssClass" class="health" :style="{width: health + '%'}"></div>
     </div>
-    <span>Player : {{ health }}% </span>
+    <!-- <span>Player</span> -->
   </div>
 </template>
 
@@ -34,7 +35,6 @@ export default {
   },
   methods: {
     gotAttacked() {
-      console.log("player got attacked");
       const reducedHealth = getRandomInt(1, 10);
       this.health -= reducedHealth;
       this.$emit(
@@ -43,7 +43,6 @@ export default {
       );
     },
     pronedByPowerAttack() {
-      console.log("player got proned by power attack");
       const reducedHealth = getRandomInt(10, 20);
       this.health -= reducedHealth;
       this.$emit(
@@ -53,7 +52,6 @@ export default {
     },
     gotHealed() {
       if (this.health < 100) {
-        console.log("Player got healed");
         const gainedHealth = getRandomInt(1, 10);
         this.health += gainedHealth;
         this.$emit(
@@ -72,13 +70,11 @@ export default {
   },
   watch: {
     health: function(newHealth, oldHealth) {
-      console.log("player new health: ", newHealth);
       if (newHealth < 0) {
         this.health = 0;
       } else if (newHealth === 0) {
-        console.log("player dead");
-        this.$emit("ko", "Player K.O. Dragon wins");
-        this.$emit("addToCommentary", "Player K.O. Dragon wins");
+        this.$emit("ko", "Dragon wins");
+        this.$emit("addToCommentary", "Dragon wins !");
       }
     }
   }
@@ -89,8 +85,10 @@ export default {
 #player {
   display: table-cell;
   text-align: center;
+  vertical-align: middle;
 }
 #player img {
-  height: 150px;
+  width: 120px;
+  margin-bottom: 15px;
 }
 </style>

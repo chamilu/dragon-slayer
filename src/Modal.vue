@@ -73,6 +73,7 @@ export default {
 .modal-body {
   margin: 20px 0;
   text-align: center;
+  font-size: 13px;
 }
 
 .modal-footer {
@@ -103,6 +104,15 @@ export default {
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+button {
+  font-family: "Cabin", sans-serif;
+  font-size: 13px;
+  margin: 5px;
+  width: 100px;
+  cursor: pointer;
+  height: 31px;
 }
 </style>
 
